@@ -179,16 +179,20 @@ class MongoHelper(object):
             utcnow = datetime.utcnow()
             self.current_game['goals'].append({'timestamp': utcnow,       # date/time goal was scored
                                                'team_id': 2})             # Team 2, Player 2 or 4
-        if self.gameOver():
-            self.endGame()
+            if self.gameOver():
+                self.endGame()
+            return True
+        return False
 
     def sendHomeGoal(self):
         if self.current_game!=None:
             utcnow = datetime.utcnow()
             self.current_game['goals'].append({'timestamp': utcnow,       # date/time goal was scored
                                                'team_id': 1})             # Team 1, Player 1 or 3
-        if self.gameOver():
-            self.endGame()
+            if self.gameOver():
+                self.endGame()
+            return True
+        return False
 
     def addWinToStats(self, stats, goals_for, goals_against):
         stats['games_won'] += 1
