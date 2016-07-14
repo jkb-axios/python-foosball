@@ -79,12 +79,23 @@ class MongoHelper(object):
             return=res['_id']
         return None
 
-    def getPlayerCurrentStats(self, mongo_id):
-        pass #TODO
-        # Query games for any player with id <mongo_id>
-        # Sort by timestamp
-        # return game[<offense/defense/1/2>]
-        # If no games, return None
+    def getPlayerCurrentStats(self, player_id):
+        games = self._games.find({ $or: [ {'offense1.player_id': player_id},
+                                          {'offense2.player_id': player_id},
+                                          {'defense1.player_id': player_id},
+                                          {'defense2.player_id': player_id} ] }).sort({'timestamp':-1})
+        if games.count() < 1:
+            return None
+        
+        if games[0]['offense1']['player_id'] == player_id:
+            return games[0]['offense1']
+        elif games[0]['offense2']['player_id'] == player_id:
+            return games[0]['offense2']
+        elif games[0]['defense1']['player_id'] == player_id:
+            return games[0]['defense1']
+        elif games[0]['defense2']['player_id'] == player_id:
+            return games[0]['defense2']
+        return None
 
     def initNewGamePlayerStats(self, shortname):
         if shortname==None:
