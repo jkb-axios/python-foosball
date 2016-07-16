@@ -1,5 +1,21 @@
 #!/bin/env python
 
+# Create a RESTful wrapper around the mongodb that provides the necessary functions:
+#   + add player (required: shortname, date_added; optional: longname, sensor_id, _id)
+#   + update player by shortname (all fields optional)
+#   + update player by player id (all fields optional)
+#   + get player id from shortname
+#   + get player id from sensor_id
+#   + get player record from player id
+#   + get player current stats by player id
+#   + add game (and related stats)
+#   - remove player (what about related games/stats?)
+#   - remove game (and related stats)
+#   - update game (and related stats?)
+#   - update stats
+#   - 
+#!/bin/env python
+
 import os, sys, time, logging, signal
 from pymongo import MongoClient as MC
 from datetime import datetime, timedelta
