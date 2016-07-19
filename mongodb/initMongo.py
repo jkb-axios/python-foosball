@@ -16,32 +16,35 @@ players = db.testPlayers
 games = db.testGames
 stats = db.testStats
 
-# collection - testPlayers
-utcnow = datetime.utcnow()
-player1 = {
-        '_id': str(ObjectId()),       # unique player id
-        'shortname': 'jkb',           # something easy to type in (jkb, kipp)
-        'fullname': 'Kipp Bowen',     # players full name (optional?)
-        'sensor_id': None,            # used for rfid or other sensor id
-        'date_added': utcnow          # date player added
-}
+def addInitialPlayers():
+    # collection - testPlayers
+    utcnow = datetime.utcnow()
+    player1 = {
+            '_id': 0,                     # unique player id
+            'shortname': 'jkb',           # something easy to type in (jkb, kipp)
+            'fullname': 'Kipp Bowen',     # players full name (optional?)
+            'sensor_id': None,            # used for rfid or other sensor id
+            'date_added': utcnow          # date player added
+    }
 
-res = players.insert_one(player1)
-pp(res)
+    res = players.insert_one(player1)
+    pp(res)
 
-sleep(1)
-utcnow = datetime.utcnow()
-players234 = [{'_id': str(ObjectId()), 'fullname': 'Bruce Wayne', 'shortname': 'batman',
-               'sensor_id': None, 'date_added': utcnow},
-              {'_id': str(ObjectId()), 'fullname': 'Kevin Kelly', 'shortname': 'ceo',
-               'sensor_id': None, 'date_added': utcnow},
-              {'_id': str(ObjectId()), 'fullname': 'Barack Obama', 'shortname': 'potus',
-               'sensor_id': None, 'date_added': utcnow}]
+    sleep(1)
+    utcnow = datetime.utcnow()
+    players234 = [{'_id': 1, 'fullname': 'Bruce Wayne', 'shortname': 'batman',
+                   'sensor_id': None, 'date_added': utcnow},
+                  {'_id': 2, 'fullname': 'Kevin Kelly', 'shortname': 'ceo',
+                   'sensor_id': None, 'date_added': utcnow},
+                  {'_id': 3, 'fullname': 'Barack Obama', 'shortname': 'potus',
+                   'sensor_id': None, 'date_added': utcnow}]
 
-res = players.insert_many(players234)
-pp(res)
+    res = players.insert_many(players234)
+    pp(res)
+    sleep(5)
 
-sleep(5)
+addInitialPlayers()
+
 utcnow = datetime.utcnow()
 delta = timedelta(seconds=5)
 p1 = players.find_one({'shortname':'jkb'},{})
@@ -85,6 +88,7 @@ game = {'_id': str(ObjectId()),                      # unique game id
 p1_stats = {'_id': str(ObjectId()),        # unique stats id
             'player_id': p1['_id'],        # unique id of player
             'game_id': game['_id'],        # unique id of game
+            'timestamp': utcnow,           # timestamp of game (kickoff)
             # accumulating all-time stats
             'games_won': 0,                # total num games won
             'games_lost': 1,               # total num games lost
@@ -96,9 +100,9 @@ p1_stats = {'_id': str(ObjectId()),        # unique stats id
             'skill_calc3': 0,              # skill calc based on all matches
             'skill_calc4': 0,              # alternate skill calc
             # game duration: how long from kickoff to winning goal
-            'average_game_duration': 5*240,    # 
-            'longest_game_duration': 5*240,    # 
-            'shortest_game_duration': 5*240,   # 
+            'average_game_duration': delta.total_seconds()*240,    # 
+            'longest_game_duration': delta.total_seconds()*240,    # 
+            'shortest_game_duration': delta.total_seconds()*240,   # 
             # goal duration: how long it took to score for/against
             'average_goalfor': 0,          # seconds, average time takes
             'slowest_goalfor': 0,          # seconds
@@ -115,6 +119,7 @@ p1_stats = {'_id': str(ObjectId()),        # unique stats id
 p2_stats = {'_id': str(ObjectId()),
             'player_id': p2['_id'],
             'game_id': game['_id'],
+            'timestamp': utcnow,
             'games_won': 1,
             'games_lost': 0,
             'goals_for': 10,
@@ -123,9 +128,9 @@ p2_stats = {'_id': str(ObjectId()),
             'skill_calc2': 0,
             'skill_calc3': 0,
             'skill_calc4': 0,
-            'average_game_duration': 5*240,
-            'longest_game_duration': 5*240,
-            'shortest_game_duration': 5*240,
+            'average_game_duration': delta.total_seconds()*240,
+            'longest_game_duration': delta.total_seconds()*240,
+            'shortest_game_duration': delta.total_seconds()*240,
             'average_goalfor': 0,
             'slowest_goalfor': 0,
             'quickest_goalfor': 0,
