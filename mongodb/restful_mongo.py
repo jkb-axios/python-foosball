@@ -102,7 +102,7 @@ class MongoHelper(object):
         res1 = self._players.insert_one(player)
         self.log.debug('Response from insert: %s'%(res1.acknowledged))
         res2 = self.initNewPlayerStats(_id, timestamp)
-        self.log.debug('Response from init stats: %s'%(res2)
+        self.log.debug('Response from init stats: %s'%(res2))
         if not res1.acknowledged:
             return None
         return res1.inserted_id
@@ -172,7 +172,7 @@ class MongoHelper(object):
     def initNewPlayerStats(self, player_id, timestamp):
         if player_id==None or timestamp==None:
             return None
-        stats = self.getPlayerCurrentStats(player_id):
+        stats = self.getPlayerCurrentStats(player_id)
         if stats:
             return stats['_id'] # TODO: raise exception?
 

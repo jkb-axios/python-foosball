@@ -43,7 +43,7 @@ def addInitialPlayers():
     pp(res)
     sleep(5)
 
-addInitialPlayers()
+#addInitialPlayers()
 
 utcnow = datetime.utcnow()
 delta = timedelta(seconds=5)
