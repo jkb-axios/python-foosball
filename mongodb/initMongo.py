@@ -93,7 +93,8 @@ p1_stats = {'_id': str(ObjectId()),        # unique stats id
             'games_won': 0,                # total num games won
             'games_lost': 1,               # total num games lost
             'goals_for': 9,                # total goals for
-            'goals_against': 10,            # total goals against
+            'goals_against': 10,           # total goals against
+            'goals_scored': 9,             # total goals scored
             # skill calculations: various methods for determining ranking
             'skill_calc1': 0,              # skill calc based on 2-player matches
             'skill_calc2': 0,              # skill calc based on 4-player matches
@@ -124,6 +125,7 @@ p2_stats = {'_id': str(ObjectId()),
             'games_lost': 0,
             'goals_for': 10,
             'goals_against': 9,
+            'goals_scored': 10,
             'skill_calc1': 0,
             'skill_calc2': 0,
             'skill_calc3': 0,

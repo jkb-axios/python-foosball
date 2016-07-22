@@ -43,6 +43,7 @@ def index():
 def foosball_index():
   return HELP_TEXT
 
+# Return all entries from player collection
 #curl -i http://localhost:5000/foosball/api/v1.0/players
 @testapp.route(BASE_PATH+'/players', methods=['GET'])
 def get_players():
@@ -52,6 +53,7 @@ def get_players():
         return 'ERROR - no players'
     return jsonify(list(players))
 
+# Return entry of specific player by player id
 @testapp.route(BASE_PATH+'/players/<int:player_id>', methods=['GET'])
 def get_player_id(player_id):
     player = helper.getPlayerById(player_id)
@@ -59,6 +61,7 @@ def get_player_id(player_id):
         return "ERROR - no player"
     return jsonify(player)
 
+# Return entry of specific player by player shortname
 @testapp.route(BASE_PATH+'/players/<string:player_sn>', methods=['GET'])
 def get_player_sn(player_sn):
     player = helper.getPlayerByShortname(player_sn)
@@ -66,6 +69,7 @@ def get_player_sn(player_sn):
         return "ERROR - no player"
     return jsonify(player)
 
+# Add a new player. Shortname is required, fullname and sensor_id are optional. Timestamp and player id are auto-generated. Player id is returned.
 #curl -i -H "Content-Type: application/json" -X POST -d '{"shortname":"joker","fullname":"The Joker"}' http://localhost:5000/foosball/api/v1.0/players
 @testapp.route(BASE_PATH+'/players', methods=['POST'])
 def add_player():
@@ -79,6 +83,7 @@ def add_player():
         abort(400)
     return jsonify({'_id': _id}), 201
 
+# Update Player information by specifying player id. Specify shortname, fullname, or sensor_id to update. Return entire player entry.
 #curl -i -H "Content-Type: application/json" -X PUT -d '{"shortname":"joker","fullname":"The Joker", "sensor_id":"0123456789"}' http://localhost:5000/foosball/api/v1.0/players/4
 @testapp.route(BASE_PATH+'/players/<int:player_id>', methods=['PUT'])
 def update_player(player_id):
@@ -96,6 +101,7 @@ def update_player(player_id):
     return jsonify(helper.getPlayerById(player_id)) or abort(400)
     #return jsonify({'_id': player_id, 'shortname': shortname, 'fullname': fullname, 'sensor_id': sensor_id, 'timestamp': player['timestamp']})
 
+# Return all entries from the games collection.
 @testapp.route(BASE_PATH+'/games', methods=['GET'])
 def get_games():
     games = helper.getGames()
@@ -103,6 +109,7 @@ def get_games():
         return 'ERROR - no games'
     return jsonify(list(games))
 
+# Return all entries from the stats collection.
 @testapp.route(BASE_PATH+'/stats', methods=['GET'])
 def get_all_stats():
     stats = helper.getStats()
@@ -110,6 +117,7 @@ def get_all_stats():
         return 'ERROR - no stats'
     return jsonify(list(stats))
 
+# Return current stats for player specified by player id.
 @testapp.route(BASE_PATH+'/stats/<int:player_id>', methods=['GET'])
 def get_player_stats(player_id):
     stats = helper.getPlayerCurrentStats(player_id)
